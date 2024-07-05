@@ -24,21 +24,14 @@
                     const longitude = position.coords.longitude;
 
                     const formData = new FormData(event.target);
-                    const data = {};
-                    formData.forEach((value, key) => {
-                        data[key] = value;
-                    });
-                    data['latitude'] = latitude;
-                    data['longitude'] = longitude;
+                    formData.append('latitude', latitude);
+                    formData.append('longitude', longitude);
 
-                    fetch('http://localhost:5000/submit', {
+                    fetch('submit.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
+                        body: formData
                     })
-                    .then(response => response.json())
+                    .then(response => response.text())
                     .then(data => {
                         console.log('Success:', data);
                     })
